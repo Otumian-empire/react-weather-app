@@ -1,55 +1,74 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import Card from "./components/Card";
 import NavBar from "./components/NavBar";
 
-const appid = process.env.appid;
+import {
+  decontructErrorResponse,
+  decontructResponse,
+  makeRequest,
+} from "./utils";
+
+const appid = "ca3570ec2d8b24d40013142ea88729a3";
 const BASE_URL = "http://api.openweathermap.org/data/2.5/weather";
-let country = "accra";
-const URL = `${BASE_URL}?q=${country}&lang=en&units=metric&appid=${appid}`;
 
-const convertUnixToUTC = (unixTime) => Date(unixTime);
-const structureIconUrl = (iconId) => {
-  return `http://openweathermap.org/img/w/${iconId}.png`;
-};
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      city: "Accra",
+      response: {},
+      error: "",
+    };
+  }
 
-const decontructResponse = (response) => {
-  return {
-    city: response.name,
-    icon: response.weather[0].icon,
-    description: response.weather[0].description,
-    main: response.weather[0].main,
-    tempeture: response.main.temp,
-    pressure: response.main.pressure,
-    humidity: response.main.humidity,
-    windspeed: response.speed,
-    sunrise: response.sys.sunrise,
-    sunset: response.sys.sunset,
-    country: response.sys.country,
-  };
-};
-
-const decontructErrorResponse = ({ message }) => {
-  return { message };
-};
-
-function App() {
-  let [city, setCity] = useState("Accra");
-
-  const handleChange = (event) => {
-    setCity(event.target.value);
+  handleChange = (event) => {
+    console.log(event.target.value);
+    this.setState({ city: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
-    alert("Submit");
+
+    console.log(`Submitted: ${this.state.city}`);
+
+    let url = `${BASE_URL}?q=${this.state.city}&lang=en&units=metric&appid=${appid}`;
+
+    makeRequest(url)
+      .then((response) => {
+        console.log(response.data);
+        this.setState({ response: decontructResponse(response.data) });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  return (
-    <div className="">
-      <NavBar onChange={(handleChange, handleSubmit, city)} />
-      <Card />
-    </div>
-  );
+  componentDidMount() {
+    let url = `${BASE_URL}?q=${this.state.city}&lang=en&units=metric&appid=${appid}`;
+
+    makeRequest(url)
+      .then((response) => {
+        console.log(response.data);
+        this.setState({ response: decontructResponse(response.data) });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  render() {
+    return (
+      <div className="">
+        <NavBar
+          onChange={this.handleChange}
+          onSubmit={this.handleSubmit}
+          city={this.state.city}
+        />
+        {/* { if (this.state.error)} */}
+        <Card response={this.state.response} />
+      </div>
+    );
+  }
 }
 
 export default App;
