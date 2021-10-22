@@ -3,15 +3,15 @@ import axios from "axios";
 const decontructResponse = (response) => {
   return {
     city: response.name,
-    icon: response.weather[0].icon,
+    icon: structureIconUrl(response.weather[0].icon),
     description: response.weather[0].description,
     main: response.weather[0].main,
     tempeture: response.main.temp,
     pressure: response.main.pressure,
     humidity: response.main.humidity,
     windspeed: response.wind.speed,
-    sunrise: response.sys.sunrise,
-    sunset: response.sys.sunset,
+    sunrise: convertUnixToUTC(response.sys.sunrise),
+    sunset: convertUnixToUTC(response.sys.sunset),
     country: response.sys.country,
   };
 };
@@ -30,18 +30,13 @@ const structureIconUrl = (iconId) => {
 };
 
 const makeRequest = async (url) => {
-  await axios
-    .get(url)
-    .then((response) => decontructResponse(response.data))
-    .catch((error) => {
-      console.log(error);
-    });
+  try {
+    const result = await axios.get(url);
+    return result.data;
+  } catch (error) {
+    console.log(error.response.data);
+    return error.response.data;
+  }
 };
 
-export {
-  decontructResponse,
-  decontructErrorResponse,
-  convertUnixToUTC,
-  structureIconUrl,
-  makeRequest,
-};
+export { decontructResponse, decontructErrorResponse, makeRequest };

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { structureIconUrl, convertUnixToUTC } from "../utils";
 
 class Card extends Component {
   render() {
@@ -9,7 +8,7 @@ class Card extends Component {
         id="Card"
       >
         <img
-          src={structureIconUrl(this.props.response.icon)}
+          src={this.props.response.icon}
           className="card-img-top"
           alt="weather icon"
           width={100}
@@ -35,10 +34,10 @@ class Card extends Component {
             windspeed - {this.props.response.windspeed}
           </li>{" "}
           <li className="list-group-item">
-            sunrise - {convertUnixToUTC(this.props.response.sunrise)}
+            sunrise - {this.props.response.sunrise}
           </li>{" "}
           <li className="list-group-item">
-            sunset - {convertUnixToUTC(this.props.response.sunset)}
+            sunset - {this.props.response.sunset}
           </li>{" "}
         </ul>
       </div>

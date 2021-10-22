@@ -22,24 +22,30 @@ class App extends Component {
   }
 
   handleChange = (event) => {
-    console.log(event.target.value);
     this.setState({ city: event.target.value });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log(`Submitted: ${this.state.city}`);
-
     let url = `${BASE_URL}?q=${this.state.city}&lang=en&units=metric&appid=${appid}`;
 
     makeRequest(url)
-      .then((response) => {
-        console.log(response.data);
-        this.setState({ response: decontructResponse(response.data) });
+      .then((result) => {
+        if (result.cod === 200) {
+          this.setState({
+            response: decontructResponse(result),
+          });
+        } else {
+          this.setState({
+            error: decontructErrorResponse(result),
+          });
+        }
       })
       .catch((error) => {
-        console.log(error);
+        this.setState({
+          error: "error occured",
+        });
       });
   };
 
@@ -47,12 +53,21 @@ class App extends Component {
     let url = `${BASE_URL}?q=${this.state.city}&lang=en&units=metric&appid=${appid}`;
 
     makeRequest(url)
-      .then((response) => {
-        console.log(response.data);
-        this.setState({ response: decontructResponse(response.data) });
+      .then((result) => {
+        if (result.cod === 200) {
+          this.setState({
+            response: decontructResponse(result),
+          });
+        } else {
+          this.setState({
+            error: decontructErrorResponse(result),
+          });
+        }
       })
       .catch((error) => {
-        console.log(error);
+        this.setState({
+          error: "error occured",
+        });
       });
   }
 
