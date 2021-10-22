@@ -4,8 +4,8 @@ class Card extends Component {
   render() {
     return (
       <div
-        className="card container d-flex align-items-center justify-content-center"
-        id="Card"
+        className="Card card container d-flex align-items-center justify-content-center"
+        id=""
       >
         <img
           src={this.props.response.icon}

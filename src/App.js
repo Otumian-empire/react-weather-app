@@ -1,3 +1,4 @@
+import Alert from "./components/Alert";
 import React, { Component } from "react";
 import Card from "./components/Card";
 import NavBar from "./components/NavBar";
@@ -35,6 +36,8 @@ class App extends Component {
         if (result.cod === 200) {
           this.setState({
             response: decontructResponse(result),
+            error: "",
+            city: "",
           });
         } else {
           this.setState({
@@ -79,7 +82,9 @@ class App extends Component {
           onSubmit={this.handleSubmit}
           city={this.state.city}
         />
-        {/* { if (this.state.error)} */}
+
+        {this.state.error.length > 0 && <Alert message={this.state.error} />}
+
         <Card response={this.state.response} />
       </div>
     );

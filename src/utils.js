@@ -16,8 +16,8 @@ const decontructResponse = (response) => {
   };
 };
 
-const decontructErrorResponse = ({ message }) => {
-  return { message };
+const decontructErrorResponse = (response) => {
+  return response.message;
 };
 
 const convertUnixToUTC = (unixTime) => {
@@ -34,7 +34,6 @@ const makeRequest = async (url) => {
     const result = await axios.get(url);
     return result.data;
   } catch (error) {
-    console.log(error.response.data);
     return error.response.data;
   }
 };
