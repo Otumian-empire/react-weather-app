@@ -8,12 +8,12 @@ class Alert extends Component {
         role="alert"
       >
         {this.props.message}
-        <button
+        {/* <button
           type="button"
           className="btn-close"
           data-bs-dismiss="alert"
           aria-label="Close"
-        ></button>
+        ></button> */}
       </div>
     );
   }

@@ -23,14 +23,10 @@ class App extends Component {
   }
 
   handleChange = (event) => {
-    this.setState({ city: event.target.value });
+    this.setState({ city: event.target.value, });
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    let url = `${BASE_URL}?q=${this.state.city}&lang=en&units=metric&appid=${appid}`;
-
+  handleRequest = (url) => {
     makeRequest(url)
       .then((result) => {
         if (result.cod === 200) {
@@ -41,29 +37,9 @@ class App extends Component {
           });
         } else {
           this.setState({
+            response: {},
             error: deconstructErrorResponse(result),
-          });
-        }
-      })
-      .catch((error) => {
-        this.setState({
-          error: "error occurred",
-        });
-      });
-  };
-
-  componentDidMount() {
-    let url = `${BASE_URL}?q=${this.state.city}&lang=en&units=metric&appid=${appid}`;
-
-    makeRequest(url)
-      .then((result) => {
-        if (result.cod === 200) {
-          this.setState({
-            response: deconstructResponse(result),
-          });
-        } else {
-          this.setState({
-            error: deconstructErrorResponse(result),
+            city: "",
           });
         }
       })
@@ -74,12 +50,34 @@ class App extends Component {
       });
   }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    let url = `${BASE_URL}?q=${this.state.city}&lang=en&units=metric&appid=${appid}`;
+
+    this.handleRequest(url);
+
+  };
+
+  handleClick = () => {
+    this.setState({ error: "" });
+  }
+
+  // request weather data on a default city when the page loads
+  // for the first time
+  componentDidMount() {
+    let url = `${BASE_URL}?q=${this.state.city}&lang=en&units=metric&appid=${appid}`;
+
+    this.handleRequest(url);
+  }
+
   render() {
     return (
       <div className="">
         <NavBar
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
+          onClick={this.handleClick}
           city={this.state.city}
         />
 

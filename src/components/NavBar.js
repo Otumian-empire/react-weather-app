@@ -33,6 +33,7 @@ class NavBar extends Component {
             <form
               className="d-flex col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
               onSubmit={this.props.onSubmit}
+              onClick={this.props.onClick}
             >
               <input
                 type="search"
