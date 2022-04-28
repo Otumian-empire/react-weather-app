@@ -22,7 +22,7 @@ class Card extends Component {
         </div>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
-            tempeture - {this.props.response.tempeture}
+            temperature - {this.props.response.temperature}
           </li>{" "}
           <li className="list-group-item">
             pressure - {this.props.response.pressure}
@@ -31,7 +31,7 @@ class Card extends Component {
             humidity - {this.props.response.humidity}
           </li>
           <li className="list-group-item">
-            windspeed - {this.props.response.windspeed}
+            wind speed - {this.props.response.windSpeed}
           </li>{" "}
           <li className="list-group-item">
             sunrise - {this.props.response.sunrise}

@@ -4,12 +4,12 @@ import Card from "./components/Card";
 import NavBar from "./components/NavBar";
 
 import {
-  decontructErrorResponse,
-  decontructResponse,
+  deconstructErrorResponse,
+  deconstructResponse,
   makeRequest,
 } from "./utils";
 
-const appid = "ca3570ec2d8b24d40013142ea88729a3";
+const appid = process.env.REACT_APP_API_KEY;
 const BASE_URL = "http://api.openweathermap.org/data/2.5/weather";
 
 class App extends Component {
@@ -35,19 +35,19 @@ class App extends Component {
       .then((result) => {
         if (result.cod === 200) {
           this.setState({
-            response: decontructResponse(result),
+            response: deconstructResponse(result),
             error: "",
             city: "",
           });
         } else {
           this.setState({
-            error: decontructErrorResponse(result),
+            error: deconstructErrorResponse(result),
           });
         }
       })
       .catch((error) => {
         this.setState({
-          error: "error occured",
+          error: "error occurred",
         });
       });
   };
@@ -59,17 +59,17 @@ class App extends Component {
       .then((result) => {
         if (result.cod === 200) {
           this.setState({
-            response: decontructResponse(result),
+            response: deconstructResponse(result),
           });
         } else {
           this.setState({
-            error: decontructErrorResponse(result),
+            error: deconstructErrorResponse(result),
           });
         }
       })
       .catch((error) => {
         this.setState({
-          error: "error occured",
+          error: "error occurred",
         });
       });
   }

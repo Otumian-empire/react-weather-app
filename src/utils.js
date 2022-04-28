@@ -1,22 +1,22 @@
 import axios from "axios";
 
-const decontructResponse = (response) => {
+const deconstructResponse = (response) => {
   return {
     city: response.name,
     icon: structureIconUrl(response.weather[0].icon),
     description: response.weather[0].description,
     main: response.weather[0].main,
-    tempeture: response.main.temp,
+    temperature: response.main.temp,
     pressure: response.main.pressure,
     humidity: response.main.humidity,
-    windspeed: response.wind.speed,
+    windSpeed: response.wind.speed,
     sunrise: convertUnixToUTC(response.sys.sunrise),
     sunset: convertUnixToUTC(response.sys.sunset),
     country: response.sys.country,
   };
 };
 
-const decontructErrorResponse = (response) => {
+const deconstructErrorResponse = (response) => {
   return response.message;
 };
 
@@ -38,4 +38,4 @@ const makeRequest = async (url) => {
   }
 };
 
-export { decontructResponse, decontructErrorResponse, makeRequest };
+export { deconstructResponse, deconstructErrorResponse, makeRequest };
